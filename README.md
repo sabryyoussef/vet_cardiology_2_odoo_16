@@ -1,5 +1,10 @@
-Here’s the external description for your veterinary cardiology diagnostic module, now including Arabic translation:
+# Vet Cardiology Project  
 
+This project is focused on veterinary cardiology.  
+
+## View Diagnostic Module  
+
+You can access the diagnostic module by clicking [here](https://sabryyoussef.github.io/vet_cardiology_2_odoo_16/static/description/index.html).
 ---
 
 **Veterinary Cardiology Diagnostic Module**
