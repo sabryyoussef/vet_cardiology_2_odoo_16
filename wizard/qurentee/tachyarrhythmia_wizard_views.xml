@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tachyarrhythmia_wizard_form" model="ir.ui.view">
+        <field name="name">tachyarrhythmia.wizard.form</field>
+        <field name="model">tachyarrhythmia.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Tachyarrhythmia Wizard">
+                <field name="state" invisible="1"/>
+                
+                <!-- Add header with state indicator -->
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="species,rhythm,complexes,treatment"/>
+                </header>
+                
+                <sheet>
+                    <!-- Welcome message and instructions -->
+                    <div class="alert alert-info" role="alert" style="margin-bottom: 20px;">
+                        <h3 class="text-center">Tachyarrhythmia Management Assistant</h3>
+                        <p class="text-center">Please follow the steps to determine the appropriate treatment plan.</p>
+                    </div>
+
+                    <group>
+                        <!-- Species Selection -->
+                        <group attrs="{'invisible': [('state', '!=', 'species')]}" class="oe_center">
+                            <h2 class="text-center mb16">Species</h2>
+                            <field name="species" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+
+                        <!-- Rhythm Assessment -->
+                        <group attrs="{'invisible': [('state', '!=', 'rhythm')]}" class="oe_center">
+                            <h2 class="text-center mb16">Rhythm</h2>
+                            <field name="rhythm" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+
+                        <!-- Complex Assessment -->
+                        <group attrs="{'invisible': [('state', '!=', 'complexes')]}" class="oe_center">
+                            <h2 class="text-center mb16">QRS</h2>
+                            <field name="complexes" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+
+                        <!-- Treatment Plan -->
+                        <group attrs="{'invisible': [('state', '!=', 'treatment')]}" class="oe_center">
+                            <h2 class="text-center mb16">Treatment</h2>
+                            <field name="diagnosis" readonly="1" class="h3"/>
+                            <field name="treatment_plan" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_previous" string="← Previous" 
+                            type="object" class="btn-secondary"
+                            attrs="{'invisible': [('state', '=', 'species')]}"/>
+                    <button name="action_next" string="Next →" 
+                            type="object" class="btn-primary"
+                            attrs="{'invisible': [('state', '=', 'treatment')]}"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tachyarrhythmia_wizard" model="ir.actions.act_window">
+        <field name="name">Tachyarrhythmia Management</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">tachyarrhythmia.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <menuitem id="menu_tachyarrhythmia_wizard"
+              name="Tachyarrhythmia Wizard"
+              action="action_tachyarrhythmia_wizard"
+              parent="cardiology_sc.menu_root"
+              sequence="3"/>
+
+
+</odoo>

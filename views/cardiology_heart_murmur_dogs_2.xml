@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_dog_heart_murmur_form" model="ir.ui.view">
+        <field name="name">veterinary.dog.heart.murmur.form</field>
+        <field name="model">veterinary.dog.heart.murmur</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="evaluate_murmur"
+                            string="Evaluate Murmur"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', '=', 'diagnosed')]}"
+                            data-hotkey="e"/>
+                    <button name="action_reset"
+                            string="Reset"
+                            type="object"
+                            attrs="{'invisible': [('state', '=', 'draft')]}"
+                            data-hotkey="r"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,diagnosed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Algorithm Reference">
+                            <field name="animal_algorithm_id" options="{'no_create': True}"/>
+                            <field name="animal_type"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group string="Murmur Characteristics">
+                            <field name="murmur_grade"/>
+                            <field name="location"/>
+                            <field name="intensity"/>
+                            <field name="murmur_type"/>
+                        </group>
+                        <group string="Patient Information">
+                            <field name="dog_weight"/>
+                            <field name="age_group"/>
+                            <field name="clinical_signs"/>
+                        </group>
+                    </group>
+                    <notebook attrs="{'invisible': [('state', '!=', 'diagnosed')]}">
+                        <page string="Diagnostic Results" name="results">
+                            <group>
+                                <field name="diagnosis" readonly="1"/>
+                                <field name="recommendation" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_dog_heart_murmur_tree" model="ir.ui.view">
+        <field name="name">veterinary.dog.heart.murmur.tree</field>
+        <field name="model">veterinary.dog.heart.murmur</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-success="state == 'diagnosed'" sample="1">
+                <field name="sequence" widget="handle"/>
+                <field name="display_name"/>
+                <field name="animal_type"/>
+                <field name="murmur_grade"/>
+                <field name="location"/>
+                <field name="intensity"/>
+                <field name="murmur_type"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_dog_heart_murmur_search" model="ir.ui.view">
+        <field name="name">veterinary.dog.heart.murmur.search</field>
+        <field name="model">veterinary.dog.heart.murmur</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="display_name"/>
+                <field name="animal_type"/>
+                <field name="murmur_grade"/>
+                <field name="location"/>
+                <field name="intensity"/>
+                <field name="murmur_type"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Diagnosed" name="diagnosed" domain="[('state','=','diagnosed')]"/>
+                <separator/>
+                <filter string="My Activities" name="activities_my"
+                        domain="[('activity_ids.user_id', '=', uid)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Animal Type" name="group_by_animal_type" context="{'group_by':'animal_type'}"/>
+                    <filter string="Murmur Grade" name="group_by_murmur_grade" context="{'group_by':'murmur_grade'}"/>
+                    <filter string="Location" name="group_by_location" context="{'group_by':'location'}"/>
+                    <filter string="Intensity" name="group_by_intensity" context="{'group_by':'intensity'}"/>
+                    <filter string="Status" name="group_by_state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_dog_heart_murmur_kanban" model="ir.ui.view">
+        <field name="name">veterinary.dog.heart.murmur.kanban</field>
+        <field name="model">veterinary.dog.heart.murmur</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="display_name"/>
+                <field name="murmur_grade"/>
+                <field name="location"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong><field name="display_name"/></strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <span>Grade: <field name="murmur_grade"/></span>
+                                </div>
+                                <div class="col-6">
+                                    <span>Location: <field name="location"/></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-end">
+                                    <span class="badge rounded-pill"
+                                          t-attf-class="badge-#{record.state.raw_value == 'diagnosed' ? 'success' : 'info'}">
+                                        <field name="state"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Calendar View -->
+    <record id="view_dog_heart_murmur_calendar" model="ir.ui.view">
+        <field name="name">veterinary.dog.heart.murmur.calendar</field>
+        <field name="model">veterinary.dog.heart.murmur</field>
+        <field name="arch" type="xml">
+            <calendar string="Heart Murmur Diagnoses"
+                     date_start="create_date"
+                     color="state"
+                     quick_add="false"
+                     mode="month">
+                <field name="display_name"/>
+                <field name="murmur_grade"/>
+                <field name="location"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record id="view_dog_heart_murmur_graph" model="ir.ui.view">
+        <field name="name">veterinary.dog.heart.murmur.graph</field>
+        <field name="model">veterinary.dog.heart.murmur</field>
+        <field name="arch" type="xml">
+            <graph string="Heart Murmur Analysis" sample="1">
+                <field name="murmur_grade"/>
+                <field name="location"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Pivot View -->
+    <record id="view_dog_heart_murmur_pivot" model="ir.ui.view">
+        <field name="name">veterinary.dog.heart.murmur.pivot</field>
+        <field name="model">veterinary.dog.heart.murmur</field>
+        <field name="arch" type="xml">
+            <pivot string="Heart Murmur Analysis" sample="1">
+                <field name="murmur_grade" type="row"/>
+                <field name="location" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_dog_heart_murmur" model="ir.actions.act_window">
+        <field name="name">Dog Heart Murmur</field>
+        <field name="res_model">veterinary.dog.heart.murmur</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+        <field name="search_view_id" ref="view_dog_heart_murmur_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first dog heart murmur diagnosis
+            </p>
+            <p>
+                Track and manage dog heart murmur diagnoses, evaluate conditions,
+                and maintain a complete history of cardiac examinations.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <!-- Main menu -->
+<!--    <menuitem id="menu_veterinary_root"-->
+<!--              name="Veterinary"-->
+<!--              web_icon="veterinary,static/description/icon.png"-->
+<!--              sequence="10"/>-->
+
+<!--    &lt;!&ndash; Submenu for Cardiology &ndash;&gt;-->
+<!--    <menuitem id="menu_veterinary_cardiology"-->
+<!--              name="Cardiology"-->
+<!--              parent="menu_veterinary_root"-->
+<!--              sequence="10"/>-->
+
+<!--    &lt;!&ndash; Menu item for Heart Murmur &ndash;&gt;-->
+<!--    <menuitem id="menu_dog_heart_murmur"-->
+<!--              name="Dog Heart Murmur"-->
+<!--              parent="menu_veterinary_cardiology"-->
+<!--              action="action_dog_heart_murmur"-->
+<!--              sequence="10"/>-->
+
+<!--    &lt;!&ndash; Configuration Menu &ndash;&gt;-->
+<!--    <menuitem id="menu_veterinary_configuration"-->
+<!--              name="Configuration"-->
+<!--              parent="menu_veterinary_root"-->
+<!--              sequence="100"/>-->
+<!--    <menuitem id="menu_dog_heart_murmur"-->
+<!--              name="Dog Heart Murmur"-->
+<!--              parent="cardiology_sc.menu_root"-->
+<!--              action="action_dog_heart_murmur"-->
+<!--              sequence="10"/>-->
+</odoo>

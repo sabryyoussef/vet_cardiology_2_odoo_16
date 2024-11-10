@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_pulse_alteration_form" model="ir.ui.view">
+        <field name="name">veterinary.pulse.alteration.form</field>
+        <field name="model">veterinary.pulse.alteration</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_diagnose"
+                            string="Generate Diagnosis"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_reset"
+                            string="Reset"
+                            type="object"
+                            attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Basic Information">
+                            <field name="animal_algorithm_id"/>
+                            <field name="palpable_pulse"/>
+                            <field name="heart_status"/>
+                        </group>
+                        <group string="ECG Parameters">
+                            <field name="qrs_amplitude"/>
+                        </group>
+                    </group>
+                    <notebook attrs="{'invisible': [('state', '=', 'draft')]}">
+                        <page string="Diagnostic Results" name="results">
+                            <group>
+                                <field name="diagnosis" readonly="1"/>
+                                <field name="differentials" readonly="1"/>
+                                <field name="recommendations" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_pulse_alteration_tree" model="ir.ui.view">
+        <field name="name">veterinary.pulse.alteration.tree</field>
+        <field name="model">veterinary.pulse.alteration</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="state=='emergency'">
+                <field name="name"/>
+                <field name="animal_algorithm_id"/>
+                <field name="heart_status"/>
+                <field name="palpable_pulse"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_pulse_alteration_search" model="ir.ui.view">
+        <field name="name">veterinary.pulse.alteration.search</field>
+        <field name="model">veterinary.pulse.alteration</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="animal_algorithm_id"/>
+                <field name="heart_status"/>
+                <separator/>
+                <filter string="Emergency Cases" name="emergency" domain="[('state','=','emergency')]"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Diagnosed" name="diagnosed" domain="[('state','=','diagnosed')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Heart Status" name="group_by_status" context="{'group_by':'heart_status'}"/>
+                    <filter string="State" name="group_by_state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_pulse_alteration" model="ir.actions.act_window">
+        <field name="name">Pulse Alteration Diagnosis</field>
+        <field name="res_model">veterinary.pulse.alteration</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first pulse alteration diagnosis
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+<!--    <menuitem id="menu_veterinary_root"-->
+<!--              name="Veterinary"-->
+<!--              sequence="10"/>-->
+
+<!--    <menuitem id="menu_veterinary_cardiology"-->
+<!--              name="Cardiology"-->
+<!--              parent="menu_veterinary_root"-->
+<!--              sequence="10"/>-->
+
+    <menuitem id="menu_pulse_alteration"
+              name="Pulse Alteration"
+              parent="cardiology_sc.menu_root"
+              action="action_pulse_alteration"
+              sequence="30"/>
+</odoo>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View Updates -->
+    <record id="view_cat_heart_murmur_tree" model="ir.ui.view">
+        <field name="name">veterinary.cat.heart.murmur.tree</field>
+        <field name="model">veterinary.cat.heart.murmur</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="animal_algorithm_id"/>
+                <field name="pcv"/>
+                <field name="nt_pro_bnp"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Form View -->
+    <record id="view_cat_heart_murmur_form" model="ir.ui.view">
+        <field name="name">veterinary.cat.heart.murmur.form</field>
+        <field name="model">veterinary.cat.heart.murmur</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_diagnose"
+                            string="Diagnose"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', '=', 'diagnosed')]}"/>
+                    <button name="action_reset"
+                            string="Reset"
+                            type="object"
+                            attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="cat_name" placeholder="Cat Name"/>
+                        </h1>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <field name="sequence" widget="handle"/>
+                    </div>
+                    <group>
+                        <group>
+                            <!-- Update required attributes to match model -->
+                            <field name="animal_algorithm_id"
+                                   options="{'no_create': True}"
+                                   required="1"/>
+                            <field name="animal_type" readonly="1"/>
+                            <field name="age" required="1"/>
+                            <field name="murmur_grade" required="1"/>
+                        </group>
+                        <group>
+                            <field name="pcv" required="1"/>
+                            <field name="nt_pro_bnp" required="1"/>
+                            <field name="t4_level" required="1"/>
+                            <field name="has_fever"/>
+                        </group>
+                    </group>
+                    <notebook attrs="{'invisible': [('state', '=', 'draft')]}">
+                        <page string="Diagnosis Results" name="diagnosis_results">
+                            <group>
+                                <field name="anemia_result" readonly="1"/>
+                                <field name="murmur_result" readonly="1"/>
+                                <field name="thyroid_result" readonly="1"/>
+                                <field name="age_evaluation_result" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree/List View -->
+    <record id="view_cat_heart_murmur_tree" model="ir.ui.view">
+        <field name="name">veterinary.cat.heart.murmur.tree</field>
+        <field name="model">veterinary.cat.heart.murmur</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="cat_name"/>
+                <field name="age"/>
+                <field name="murmur_grade"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_cat_heart_murmur_search" model="ir.ui.view">
+        <field name="name">veterinary.cat.heart.murmur.search</field>
+        <field name="model">veterinary.cat.heart.murmur</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="cat_name"/>
+                <field name="murmur_grade"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Diagnosed" name="diagnosed" domain="[('state', '=', 'diagnosed')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
+                    <filter string="Murmur Grade" name="group_by_grade" context="{'group_by': 'murmur_grade'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_cat_heart_murmur" model="ir.actions.act_window">
+        <field name="name">Cat Heart Murmur</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">veterinary.cat.heart.murmur</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_draft': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first cat heart murmur diagnosis
+            </p>
+            <p>
+                Track and diagnose heart murmurs in cats.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <!--    <menuitem id="menu_veterinary_cardiology"-->
+    <!--              name="Veterinary Cardiology"-->
+    <!--              sequence="10"/>-->
+
+    <!--    <menuitem id="menu_veterinary_cardiology_cat"-->
+    <!--              name="Cat Diagnostics"-->
+    <!--              parent="menu_veterinary_cardiology"-->
+    <!--              sequence="10"/>-->
+
+<!--    <menuitem id="menu_cat_heart_murmur"-->
+<!--              name="Heart Murmurs Cat"-->
+<!--              parent="cardiology_sc.menu_root"-->
+<!--              action="action_cat_heart_murmur"-->
+<!--              sequence="10"/>-->
+</odoo>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_tachyarrhythmia_form" model="ir.ui.view">
+        <field name="name">veterinary.tachyarrhythmia.form</field>
+        <field name="model">veterinary.tachyarrhythmia</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_diagnose"
+                            string="Generate Diagnosis"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', '=', 'diagnosed')]}"
+                            data-hotkey="g"/>
+                    <button name="action_reset"
+                            string="Reset"
+                            type="object"
+                            attrs="{'invisible': [('state', '=', 'draft')]}"
+                            data-hotkey="r"/>
+                    <button name="assess_heart_rate"
+                            string="Check Heart Rate"
+                            type="object"
+                            class="btn-secondary"
+                            attrs="{'invisible': [('state', '=', 'diagnosed')]}"
+                            data-hotkey="h"/>
+                    <button name="diagnose"
+                            string="Detailed Diagnosis"
+                            type="object"
+                            class="btn-secondary"
+                            attrs="{'invisible': ['|',
+                                    ('state', '=', 'diagnosed'),
+                                    ('heart_rate', '=', 0)]}"
+                            data-hotkey="d"/>
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,diagnosed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="sequence" widget="handle"/>
+                            Tachyarrhythmia Assessment
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Algorithm Reference">
+                            <field name="animal_algorithm_id"
+                                   options="{'no_create': True}"/>
+                            <field name="animal_type"/>
+                        </group>
+                        <group string="Basic Parameters">
+                            <field name="species"
+                                   widget="radio"
+                                   options="{'horizontal': true}"/>
+                            <field name="heart_rate"
+                                   widget="integer"/>
+                            <field name="rhythm_regular"
+                                   widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="ECG Parameters"
+                               attrs="{'invisible': [('state', '=', 'diagnosed')]}">
+                            <field name="complex_type"
+                                   widget="radio"
+                                   options="{'horizontal': true}"
+                                   attrs="{'required': [('rhythm_regular', '=', True)]}"/>
+                            <field name="p_wave_visible"
+                                   widget="boolean_toggle"
+                                   attrs="{'invisible': [('complex_type', '!=', 'supraventricular')],
+                                         'required': [('complex_type', '=', 'supraventricular')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Diagnostic Results"
+                              name="results"
+                              attrs="{'invisible': [('state', '=', 'draft')]}">
+                            <group>
+                                <group string="Diagnosis">
+                                    <field name="diagnosis"
+                                           readonly="1"
+                                           nolabel="1"/>
+                                </group>
+                                <group string="Treatment Plan">
+                                    <field name="treatment"
+                                           readonly="1"
+                                           nolabel="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_tachyarrhythmia_tree" model="ir.ui.view">
+        <field name="name">veterinary.tachyarrhythmia.tree</field>
+        <field name="model">veterinary.tachyarrhythmia</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state=='draft'"
+                  decoration-success="state=='diagnosed'"
+                  sample="1">
+                <field name="sequence" widget="handle"/>
+                <field name="animal_algorithm_id"/>
+                <field name="animal_type"/>
+                <field name="species"/>
+                <field name="heart_rate"/>
+                <field name="rhythm_regular"/>
+                <field name="complex_type"/>
+                <field name="diagnosis"/>
+                <field name="state"
+                       widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'diagnosed'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_tachyarrhythmia_kanban" model="ir.ui.view">
+        <field name="name">veterinary.tachyarrhythmia.kanban</field>
+        <field name="model">veterinary.tachyarrhythmia</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="species"/>
+                <field name="heart_rate"/>
+                <field name="rhythm_regular"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong><field name="species"/> - <field name="heart_rate"/> bpm</strong>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <field name="state"
+                                           widget="label_selection"
+                                           options="{'classes': {
+                                               'draft': 'info',
+                                               'diagnosed': 'success'}}"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <span t-if="record.rhythm_regular.raw_value"
+                                          class="text-success">Regular Rhythm</span>
+                                    <span t-else=""
+                                          class="text-danger">Irregular Rhythm</span>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <field name="complex_type"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_tachyarrhythmia_search" model="ir.ui.view">
+        <field name="name">veterinary.tachyarrhythmia.search</field>
+        <field name="model">veterinary.tachyarrhythmia</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="animal_algorithm_id"/>
+                <field name="animal_type"/>
+                <field name="species"/>
+                <field name="diagnosis"/>
+                <separator/>
+                <filter string="Regular Rhythm"
+                        name="regular"
+                        domain="[('rhythm_regular','=',True)]"/>
+                <filter string="High Heart Rate"
+                        name="high_hr_dog"
+                        domain="['|',
+                                '&amp;', ('species','=','dog'), ('heart_rate','>',160),
+                                '&amp;', ('species','=','cat'), ('heart_rate','>',220)]"/>
+                <separator/>
+                <filter string="Draft"
+                        name="draft"
+                        domain="[('state','=','draft')]"/>
+                <filter string="Diagnosed"
+                        name="diagnosed"
+                        domain="[('state','=','diagnosed')]"/>
+                <separator/>
+                <filter string="My Activities"
+                        name="activities_my"
+                        domain="[('activity_ids.user_id', '=', uid)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Species"
+                            name="group_by_species"
+                            context="{'group_by':'species'}"/>
+                    <filter string="Complex Type"
+                            name="group_by_complex"
+                            context="{'group_by':'complex_type'}"/>
+                    <filter string="Status"
+                            name="group_by_state"
+                            context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record id="view_tachyarrhythmia_graph" model="ir.ui.view">
+        <field name="name">veterinary.tachyarrhythmia.graph</field>
+        <field name="model">veterinary.tachyarrhythmia</field>
+        <field name="arch" type="xml">
+            <graph string="Tachyarrhythmia Analysis" sample="1">
+                <field name="species"/>
+                <field name="complex_type"/>
+                <field name="heart_rate" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Pivot View -->
+    <record id="view_tachyarrhythmia_pivot" model="ir.ui.view">
+        <field name="name">veterinary.tachyarrhythmia.pivot</field>
+        <field name="model">veterinary.tachyarrhythmia</field>
+        <field name="arch" type="xml">
+            <pivot string="Tachyarrhythmia Analysis" sample="1">
+                <field name="species" type="row"/>
+                <field name="complex_type" type="col"/>
+                <field name="heart_rate" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_tachyarrhythmia" model="ir.actions.act_window">
+        <field name="name">Tachyarrhythmia Diagnosis</field>
+        <field name="res_model">veterinary.tachyarrhythmia</field>
+        <field name="view_mode">kanban,tree,form,graph,pivot</field>
+        <field name="search_view_id" ref="view_tachyarrhythmia_search"/>
+        <field name="context">{
+            'search_default_draft': 1
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first tachyarrhythmia diagnosis
+            </p>
+            <p>
+                Track and analyze tachyarrhythmia cases, evaluate heart rates,
+                and generate comprehensive diagnoses for veterinary patients.
+            </p>
+        </field>
+    </record>
+
+<!--    &lt;!&ndash; Menu Items &ndash;&gt;-->
+<!--    <menuitem id="menu_tachyarrhythmia"-->
+<!--              name="Tachyarrhythmia"-->
+<!--              parent="cardiology_sc.menu_root"-->
+<!--              action="action_tachyarrhythmia"-->
+<!--              sequence="20"/>-->
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="cardiology_sc.Dashboard">
+        <div class="o_cardiology_dashboard">
+            <!-- KPI Cards Row -->
+            <div class="row mt-3">
+                <!-- ... your existing KPI cards ... -->
+            </div>
+
+            <!-- Charts Row -->
+            <div class="row mt-4">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <canvas t-ref="caseDistribution"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <canvas t-ref="monthlyTrends"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <canvas t-ref="diseaseDistribution"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <canvas t-ref="ageDistribution"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates> 

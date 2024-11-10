@@ -1,0 +1,17 @@
+<odoo>
+    <template id="pdf_query_template" name="PDF Query Form">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>Query PDF</h1>
+                <form id="pdf_query_form" action="/chatpdf/query" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="pdf_file">Select PDF file:</label>
+                        <input type="file" class="form-control" id="pdf_file" name="pdf_file" required="required"/>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <div id="pdf_query_response"></div>
+            </div>
+        </t>
+    </template>
+</odoo>

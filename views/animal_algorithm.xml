@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_animal_algorithm_tree" model="ir.ui.view">
+        <field name="name">animal.algorithm.tree</field>
+        <field name="model">animal.algorithm</field>
+        <field name="arch" type="xml">
+            <tree decoration-muted="state == 'cancelled' or active == False"
+                  decoration-info="state == 'in_progress'"
+                  decoration-warning="state == 'validated'"
+                  decoration-success="state == 'done'">
+                <field name="priority" widget="priority"/>
+                <field name="sequence"/>
+                <field name="name"/>
+                <field name="animal_type"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="heart_murmur_count"/>
+                <field name="last_activity_date"/>
+                <field name="state" widget="badge"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_animal_algorithm_form" model="ir.ui.view">
+        <field name="name">animal.algorithm.form</field>
+        <field name="model">animal.algorithm</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_set_in_progress"
+                            string="Start Progress"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_validate"
+                            string="Validate"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'in_progress')]}"/>
+                    <button name="action_set_done"
+                            string="Mark as Done"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'validated')]}"/>
+                    <button name="action_cancel"
+                            string="Cancel"
+                            type="object"
+                            attrs="{'invisible': [('state', 'in', ['cancelled', 'done'])]}"/>
+                    <button name="action_set_draft"
+                            string="Reset to Draft"
+                            type="object"
+                            attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <button name="action_schedule_meeting"
+                            string="Schedule Meeting"
+                            type="object"
+                            icon="fa-calendar"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,in_progress,validated,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" 
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" 
+                                   options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <div class="oe_left">
+                            <field name="priority" widget="priority"/>
+                        </div>
+                        <h1>
+                            <field name="sequence" readonly="1"/>
+                        </h1>
+                        <label for="name" class="oe_edit_only"/>
+                        <h2>
+                            <field name="name" placeholder="Algorithm Name"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="animal_type"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="last_activity_date" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="description" 
+                                   placeholder="Enter detailed description here..."
+                                   attrs="{'required': [('state', 'in', ['validated', 'done'])]}"/>
+                            <field name="notes" placeholder="Additional notes..."/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Heart Murmurs" name="heart_murmurs">
+                            <group>
+                                <field name="cat_heart_murmur_ids"
+                                       attrs="{'invisible': [('animal_type', '!=', 'cat')]}"
+                                       context="{'default_animal_algorithm_id': active_id, 'default_animal_type': 'cat'}">
+                                    <tree>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="murmur_grade"/>
+                                        <field name="state"/>
+                                        <field name="create_date" optional="hide"/>
+                                    </tree>
+                                </field>
+                                <field name="dog_heart_murmur_ids"
+                                       attrs="{'invisible': [('animal_type', '!=', 'dog')]}"
+                                       context="{'default_animal_algorithm_id': active_id, 'default_animal_type': 'dog'}">
+                                    <tree>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="murmur_grade"/>
+                                        <field name="state"/>
+                                        <field name="create_date" optional="hide"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Pulse Alterations" name="pulse_alterations">
+                            <field name="pulse_alteration_ids"
+                                   context="{'default_animal_algorithm_id': active_id, 'default_animal_type': animal_type}">
+                                <tree>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="state"/>
+                                    <field name="create_date" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Tachyarrhythmias" name="tachyarrhythmias">
+                            <field name="tachyarrhythmia_ids" context="{'default_animal_algorithm_id': active_id, 'form_view_ref': 'cardiology_sc.view_tachyarrhythmia_form'}">
+                                <tree>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="state"/>
+                                    <field name="create_date" optional="hide"/>
+                                </tree>
+<!--                                <form>-->
+<!--                                    <group>-->
+<!--                                        <field name="name"/>-->
+<!--                                        <field name="state"/>-->
+<!--                                    </group>-->
+<!--                                </form>-->
+                            </field>
+                        </page>
+<!--                         <page string="Brady And Tacky cardia" name="tachyarrhythmias">-->
+<!--                            <field name="tachyarrhythmia_ids" context="{'default_animal_algorithm_id': active_id, 'form_view_ref': 'cardiology_sc.view_tachyarrhythmia_form'}">-->
+<!--                                <tree>-->
+<!--                                    <field name="sequence" widget="handle"/>-->
+<!--                                    <field name="name"/>-->
+<!--                                    <field name="state"/>-->
+<!--                                    <field name="create_date" optional="hide"/>-->
+<!--                                </tree>-->
+<!--&lt;!&ndash;                                <form>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <group>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <field name="name"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <field name="state"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </group>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </form>&ndash;&gt;-->
+<!--                            </field>-->
+<!--                        </page>-->
+                        <page string="Cardiac Algorithms" name="cardiac_algorithms">
+                            <field name="cardiac_algorithm_ids" 
+                                   context="{'default_animal_algorithm_id': active_id, 'form_view_ref': 'cardiology_sc.view_cardiac_algorithm_form'}">
+                                <tree>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="state"/>
+                                    <field name="create_date" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_animal_algorithm_search" model="ir.ui.view">
+        <field name="name">animal.algorithm.search</field>
+        <field name="model">animal.algorithm</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="sequence"/>
+                <field name="description"/>
+                <field name="user_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <separator/>
+                <filter string="High Priority" name="priority" domain="[('priority', '=', '1')]"/>
+                <separator/>
+                <filter string="My Algorithms" name="my_algorithms" 
+                        domain="[('user_id', '=', uid)]"/>
+                <filter string="Cats" name="cats" domain="[('animal_type', '=', 'cat')]"/>
+                <filter string="Dogs" name="dogs" domain="[('animal_type', '=', 'dog')]"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="In Progress" name="in_progress" 
+                        domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Validated" name="validated" 
+                        domain="[('state', '=', 'validated')]"/>
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+                <filter string="Cancelled" name="cancelled" 
+                        domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Responsible" name="group_by_user" 
+                            domain="[]" context="{'group_by': 'user_id'}"/>
+                    <filter string="Company" name="group_by_company" 
+                            domain="[]" context="{'group_by': 'company_id'}" 
+                            groups="base.group_multi_company"/>
+                    <filter string="Animal Type" name="group_by_animal" 
+                            domain="[]" context="{'group_by': 'animal_type'}"/>
+                    <filter string="Status" name="group_by_state" 
+                            domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Priority" name="group_by_priority" 
+                            domain="[]" context="{'group_by': 'priority'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_animal_algorithm" model="ir.actions.act_window">
+        <field name="name">Veterinary Algorithms</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">animal.algorithm</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_animal_algorithm_search"/>
+        <field name="context">{
+            'search_default_my_algorithms': 1,
+            'search_default_draft': 1,
+            'search_default_in_progress': 1
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first veterinary algorithm
+            </p>
+            <p>
+                Create and manage different types of algorithms for various animal diagnostics.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <!-- In views.xml -->
+<menuitem name="cardiology_sc"
+          id="cardiology_sc.menu_root"/>
+
+<!-- In animal_algorithm.xml -->
+<menuitem id="menu_animal_algorithm"
+          name="Algorithms"
+          parent="cardiology_sc.menu_root"
+          action="action_animal_algorithm"
+          sequence="-1"/>
+    <!-- <menuitem id="menu_animal_algorithm"
+              name="Algorithms"
+              parent="cardiology_sc.menu_root"
+              action="action_animal_algorithm"
+              sequence="-1"/> -->
+</odoo>

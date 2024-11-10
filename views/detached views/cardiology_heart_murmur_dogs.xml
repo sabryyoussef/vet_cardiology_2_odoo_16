@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_dog_heart_murmur_form" model="ir.ui.view">
+        <field name="name">veterinary.dog.heart.murmur.form</field>
+        <field name="model">veterinary.dog.heart.murmur</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="evaluate_murmur"
+                            string="Evaluate Murmur"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', '=', 'diagnosed')]}"/>
+                    <button name="action_reset"
+                            string="Reset"
+                            type="object"
+                            attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Algorithm Reference">
+                            <field name="animal_algorithm_id"/>
+                        </group>
+                        <group string="Murmur Characteristics">
+                            <field name="location"/>
+                            <field name="intensity"/>
+                            <field name="murmur_type"/>
+                        </group>
+                        <group string="Patient Information">
+                            <field name="dog_weight"/>
+                            <field name="age_group"/>
+                            <field name="clinical_signs"/>
+                        </group>
+                    </group>
+                    <notebook attrs="{'invisible': [('state', '=', 'draft')]}">
+                        <page string="Diagnostic Results" name="results">
+                            <group>
+                                <field name="diagnosis" readonly="1"/>
+                                <field name="recommendation" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_dog_heart_murmur_tree" model="ir.ui.view">
+        <field name="name">veterinary.dog.heart.murmur.tree</field>
+        <field name="model">veterinary.dog.heart.murmur</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="display_name"/>
+                <field name="location"/>
+                <field name="intensity"/>
+                <field name="murmur_type"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_dog_heart_murmur_search" model="ir.ui.view">
+        <field name="name">veterinary.dog.heart.murmur.search</field>
+        <field name="model">veterinary.dog.heart.murmur</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="location"/>
+                <field name="intensity"/>
+                <field name="murmur_type"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Diagnosed" name="diagnosed" domain="[('state','=','diagnosed')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Location" name="group_by_location" context="{'group_by':'location'}"/>
+                    <filter string="Intensity" name="group_by_intensity" context="{'group_by':'intensity'}"/>
+                    <filter string="Status" name="group_by_state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_dog_heart_murmur" model="ir.actions.act_window">
+        <field name="name">Dog Heart Murmur</field>
+        <field name="res_model">veterinary.dog.heart.murmur</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first dog heart murmur diagnosis
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+<!--    <menuitem id="menu_veterinary_root"-->
+<!--              name="Veterinary"-->
+<!--              sequence="10"/>-->
+
+<!--    <menuitem id="menu_veterinary_cardiology"-->
+<!--              name="Cardiology"-->
+<!--              parent="menu_veterinary_root"-->
+<!--              sequence="10"/>-->
+
+    <menuitem id="menu_dog_heart_murmur"
+              name="Dog Heart Murmur"
+              parent="cardiology_sc.menu_root"
+              action="action_dog_heart_murmur"
+              sequence="10"/>
+</odoo>

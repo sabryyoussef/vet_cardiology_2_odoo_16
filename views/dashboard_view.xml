@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cardiology_dashboard_view" model="ir.ui.view">
+        <field name="name">cardiology.dashboard</field>
+        <field name="model">cardiology.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Cardiology Dashboard" create="false" edit="false">
+                <div class="o_cardiology_dashboard">
+                    <!-- KPI Cards Row -->
+                    <div class="row mt-3">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Cases</h5>
+                                    <h2 class="card-text">156</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card bg-success text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">Treated Cases</h5>
+                                    <h2 class="card-text">89</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card bg-warning text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">In Progress</h5>
+                                    <h2 class="card-text">45</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card bg-info text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">New Cases</h5>
+                                    <h2 class="card-text">22</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Graphs Row -->
+                    <div class="row mt-4">
+                        <!-- Case Status Graph -->
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Case Status Distribution</h5>
+                                    <field name="case_status_chart" widget="chart"/>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Monthly Trends -->
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Monthly Case Trends</h5>
+                                    <field name="monthly_trends_chart" widget="chart"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Second Row of Graphs -->
+                    <div class="row mt-4">
+                        <!-- Arrhythmia Score -->
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Arrhythmia Score Distribution</h5>
+                                    <field name="arrhythmia_chart" widget="chart"/>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ECG Findings -->
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">ECG Findings Overview</h5>
+                                    <field name="ecg_findings_chart" widget="chart"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Dashboard Action -->
+    <record id="action_cardiology_dashboard" model="ir.actions.act_window">
+        <field name="name">Cardiology Dashboard</field>
+        <field name="res_model">cardiology.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="target">main</field>
+        <field name="view_id" ref="cardiology_dashboard_view"/>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_cardiology_dashboard"
+              name="Dashboard"
+              parent="cardiology_sc.menu_root"
+              action="action_cardiology_dashboard"
+              sequence="1"/>
+</odoo> 

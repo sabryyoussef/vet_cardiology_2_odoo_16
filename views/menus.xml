@@ -1,0 +1,96 @@
+ <!-- Menu Items -->
+<!--    <menuitem name="Cardiology Algorithm"-->
+<!--                  id="cardiology_sc.menu_3"-->
+<!--                  parent="cardiology_sc.menu_cardiology"-->
+<!--                  action="action_animal_algorithm"-->
+<!--                  sequence="-1"/>-->
+<!--    <menuitem id="menu_animal_algorithm"-->
+<!--              name="Veterinary Algorithms"-->
+<!--              parent="cardiology_sc.menu_root"-->
+<!--              action="action_animal_algorithm"-->
+<!--              sequence="10"/>-->
+  <!-- Menu Item -->
+
+<!--    <menuitem id="menu_cardiac_algorithm"-->
+<!--              name="Cardiac Algorithms"-->
+<!--              action="action_cardiac_algorithm"-->
+<!--              parent="cardiology_sc.menu_3"-->
+<!--              sequence="10"/>-->
+  <!-- Menu Items -->
+    <!--    <menuitem id="menu_veterinary_cardiology"-->
+    <!--              name="Veterinary Cardiology"-->
+    <!--              sequence="10"/>-->
+
+    <!--    <menuitem id="menu_veterinary_cardiology_cat"-->
+    <!--              name="Cat Diagnostics"-->
+    <!--              parent="menu_veterinary_cardiology"-->
+    <!--              sequence="10"/>-->
+
+<!--    <menuitem id="menu_cat_heart_murmur"-->
+<!--              name="Heart Murmurs Cat"-->
+<!--              parent="cardiology_sc.menu_root"-->
+<!--              action="action_cat_heart_murmur"-->
+<!--              sequence="10"/>-->
+  <!-- Menu Items -->
+    <!-- Main menu -->
+<!--    <menuitem id="menu_veterinary_root"-->
+<!--              name="Veterinary"-->
+<!--              web_icon="veterinary,static/description/icon.png"-->
+<!--              sequence="10"/>-->
+
+<!--    &lt;!&ndash; Submenu for Cardiology &ndash;&gt;-->
+<!--    <menuitem id="menu_veterinary_cardiology"-->
+<!--              name="Cardiology"-->
+<!--              parent="menu_veterinary_root"-->
+<!--              sequence="10"/>-->
+
+<!--    &lt;!&ndash; Menu item for Heart Murmur &ndash;&gt;-->
+<!--    <menuitem id="menu_dog_heart_murmur"-->
+<!--              name="Dog Heart Murmur"-->
+<!--              parent="menu_veterinary_cardiology"-->
+<!--              action="action_dog_heart_murmur"-->
+<!--              sequence="10"/>-->
+
+<!--    &lt;!&ndash; Configuration Menu &ndash;&gt;-->
+<!--    <menuitem id="menu_veterinary_configuration"-->
+<!--              name="Configuration"-->
+<!--              parent="menu_veterinary_root"-->
+<!--              sequence="100"/>-->
+<!--    <menuitem id="menu_dog_heart_murmur"-->
+<!--              name="Dog Heart Murmur"-->
+<!--              parent="cardiology_sc.menu_root"-->
+<!--              action="action_dog_heart_murmur"-->
+<!--              sequence="10"/>-->
+  <!-- Menu Items -->
+<!--    <menuitem id="menu_veterinary_root"-->
+<!--              name="Veterinary"-->
+<!--              web_icon="veterinary,static/description/icon.png"-->
+<!--              sequence="10"/>-->
+
+<!--    <menuitem id="menu_veterinary_cardiology"-->
+<!--              name="Cardiology"-->
+<!--              parent="menu_veterinary_root"-->
+<!--              sequence="10"/>-->
+
+<!--    <menuitem id="menu_pulse_alteration"-->
+<!--              name="Pulse Alteration"-->
+<!--              parent="menu_veterinary_cardiology"-->
+<!--              action="action_pulse_alteration"-->
+<!--              sequence="30"/>-->
+
+<!--    &lt;!&ndash; Configuration Menu &ndash;&gt;-->
+<!--    <menuitem id="menu_veterinary_configuration"-->
+<!--              name="Configuration"-->
+<!--              parent="menu_veterinary_root"-->
+<!--              sequence="100"/>-->
+<!--     <menuitem id="menu_pulse_alteration"-->
+<!--              name="Pulse Alteration"-->
+<!--              parent="cardiology_sc.menu_root"-->
+<!--              action="action_pulse_alteration"-->
+<!--              sequence="30"/>-->
+ <!-- Menu Items -->
+<!--    <menuitem id="menu_tachyarrhythmia"-->
+<!--              name="Tachyarrhythmia"-->
+<!--              parent="cardiology_sc.menu_root"-->
+<!--              action="action_tachyarrhythmia"-->
+<!--              sequence="20"/>-->

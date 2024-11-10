@@ -1,0 +1,77 @@
+/* Dashboard styling */
+.o_cardiology_dashboard {
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.o_cardiology_dashboard .card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.2s;
+}
+
+.o_cardiology_dashboard .card:hover {
+    transform: translateY(-5px);
+}
+
+.o_cardiology_dashboard .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.o_cardiology_dashboard .card-text {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.o_cardiology_dashboard .card-trend {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+    opacity: 0.9;
+}
+
+.o_cardiology_dashboard canvas {
+    max-height: 300px;
+}
+
+/* Add these new color classes */
+.bg-purple {
+    background-color: #6f42c1 !important;
+}
+
+.bg-orange {
+    background-color: #fd7e14 !important;
+}
+
+.bg-teal {
+    background-color: #20c997 !important;
+}
+
+.bg-pink {
+    background-color: #e83e8c !important;
+}
+
+/* Enhanced card styling */
+.o_cardiology_dashboard .card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.o_cardiology_dashboard .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Chart container styling */
+.o_cardiology_dashboard .card .chart-container {
+    position: relative;
+    margin: auto;
+    height: 300px;
+    padding: 10px;
+} 

@@ -1,0 +1,123 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="cardiology_sc.list">
+            <field name="name">cardiology_sc list</field>
+            <field name="model">cardiology_sc.cardiology_sc</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="value"/>
+                    <field name="value2"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="cardiology_sc.action_window">
+            <field name="name">cardiology_sc window</field>
+            <field name="res_model">cardiology_sc.cardiology_sc</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- server action to the one above -->
+        <record model="ir.actions.server" id="cardiology_sc.action_server">
+            <field name="name">cardiology_sc server</field>
+            <field name="model_id" ref="model_cardiology_sc_cardiology_sc"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = {
+                "type": "ir.actions.act_window",
+                "view_mode": "tree,form",
+                "res_model": model._name,
+                }
+            </field>
+        </record>
+
+        <!-- Top menu item -->
+        <menuitem name="cardiology_sc"
+                  id="cardiology_sc.menu_root"/>
+        <!-- menu categories -->
+        <menuitem name="Menu 1"
+                  id="cardiology_sc.menu_1"
+                  parent="cardiology_sc.menu_root"/>
+        <menuitem name="Menu 2"
+                  id="cardiology_sc.menu_2"
+                  parent="cardiology_sc.menu_root"/>
+       <!-- Root Menu for Veterinary -->
+<!--<menuitem id="menu_veterinary_root"-->
+<!--          name="Veterinary"-->
+<!--          web_icon="veterinary,static/description/icon.png"-->
+<!--          sequence="10"/>-->
+
+<!-- Submenu for Cardiology -->
+<menuitem id="menu_veterinary_cardiology"
+          name="Cardiology"
+          parent="cardiology_sc.menu_root"
+          sequence="0"/>
+
+    <!-- Veterinary Algorithms Menu under Cardiology -->
+<!--    <menuitem id="menu_veterinary_algorithms"-->
+<!--              name="Veterinary Algorithms"-->
+<!--              parent="cardiology_sc.menu_root"-->
+<!--              action="action_animal_algorithm"-->
+<!--              sequence="-1"/>-->
+
+    <!-- Cardiac Algorithm Menu under Veterinary Algorithms -->
+    <menuitem id="menu_cardiac_algorithm"
+              name="Tachy and BradyCardia"
+              parent="menu_veterinary_cardiology"
+              action="action_cardiac_algorithm"
+              sequence="20"/>
+
+    <!-- Diagnostic Categories under Cardiology -->
+    <menuitem id="menu_veterinary_cardiology_cat"
+              name="Heart Murmur"
+              parent="menu_veterinary_cardiology"
+              sequence="30"/>
+
+        <!-- Specific Diagnostic Menus under Cat Diagnostics -->
+        <menuitem id="menu_cat_heart_murmur"
+                  name="Heart Murmurs Cat"
+                  parent="menu_veterinary_cardiology_cat"
+                  action="action_cat_heart_murmur"
+                  sequence="10"/>
+
+        <menuitem id="menu_dog_heart_murmur"
+                  name="Heart Murmurs Dog"
+                  parent="menu_veterinary_cardiology_cat"
+                  action="action_dog_heart_murmur"
+                  sequence="20"/>
+
+<!-- Pulse Alteration and Tachyarrhythmia under Cardiology -->
+<menuitem id="menu_pulse_alteration"
+          name="Pulse Alteration"
+          parent="menu_veterinary_cardiology"
+          action="action_pulse_alteration"
+          sequence="40"/>
+
+<menuitem id="menu_tachyarrhythmia"
+          name="Tachyarrhythmia"
+          parent="menu_veterinary_cardiology"
+          action="action_tachyarrhythmia"
+          sequence="50"/>
+
+<!-- Configuration Menu under Root -->
+<!--<menuitem id="menu_veterinary_configuration"-->
+<!--          name="Configuration"-->
+<!--          parent="menu_veterinary_root"-->
+<!--          sequence="100"/>-->
+
+
+
+
+
+        <!-- actions -->
+        <menuitem name="List" id="cardiology_sc.menu_1_list" parent="cardiology_sc.menu_1"
+                  action="cardiology_sc.action_window"/>
+        <menuitem name="Server to list" id="cardiology_sc" parent="cardiology_sc.menu_2"
+                  action="cardiology_sc.action_server"/>
+    </data>
+</odoo>

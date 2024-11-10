@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action open image for diagnosis -->
+
+    <record id="action_image_popup_url" model="ir.actions.act_url">
+        <field name="name">Image Popup</field>
+        <field name="url">http://localhost:8016/cardiology_sc/static/img/bradycardia_image.png</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_cardiac_algorithm_tree" model="ir.ui.view">
+        <field name="name">cardiac.algorithm.tree</field>
+        <field name="model">cardiac.algorithm</field>
+        <field name="arch" type="xml">
+            <tree string="Brady and Tacky Cardia" decoration-danger="heart_rate_category=='tachy'" decoration-info="heart_rate_category=='brady'">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="animal_algorithm_id"/>
+                <field name="animal_type"/>
+                <field name="heart_rate"/>
+                <field name="heart_rate_category"/>
+                <field name="state" widget="badge" decoration-success="state == 'resolved'" decoration-warning="state == 'draft'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_cardiac_algorithm_form" model="ir.ui.view">
+        <field name="name">cardiac.algorithm.form</field>
+        <field name="model">cardiac.algorithm</field>
+        <field name="arch" type="xml">
+            <form string="Brady and Tacky Cardia">
+                <header>
+                    <!-- Primary Action Buttons -->
+                    <button name="action_set_in_progress"
+                            string="Set In Progress"
+                            type="object"
+                            class="oe_highlight btn-primary"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_diagnose"
+                            string="Diagnose"
+                            type="object"
+                            class="oe_highlight btn-primary"
+                            attrs="{'invisible': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+                    <button name="manage_tachyarrhythmia"
+                            string="Analyze Tachyarrhythmia"
+                            type="object"
+                            class="btn-warning"
+                            attrs="{'invisible': [('heart_rate_category', '!=', 'tachy')]}"/>
+                    
+                    <!-- Status Change Buttons -->
+                    <button name="action_set_treated"
+                            string="Mark as Treated"
+                            type="object"
+                            class="btn-success"
+                            attrs="{'invisible': [('state', '!=', 'diagnosed')]}"/>
+                    <button name="action_set_resolved"
+                            string="Mark as Resolved"
+                            type="object"
+                            class="btn-success"
+                            attrs="{'invisible': [('state', '!=', 'treated')]}"/>
+                    
+                    <!-- Reset and Clear Buttons -->
+                    <button name="action_reset"
+                            string="Reset"
+                            type="object"
+                            class="btn-secondary"
+                            confirm="Are you sure you want to reset this diagnosis?"
+                            attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <button name="action_clear_diagnosis"
+                            string="Clear Tachyarrhythmia"
+                            type="object"
+                            class="btn-secondary"
+                            attrs="{'invisible': [('tachyarrhythmia_state', '=', 'draft')]}"/>
+
+                    <!-- View Buttons -->
+                    <button name="action_view_static_pdf"
+                            type="object"
+                            string="View Algorithm PDF"
+                            class="btn-info"/>
+                    <button name="%(action_image_popup_url)d"
+                            type="action"
+                            string="View Image"
+                            class="btn-info"/>
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,in_progress,diagnosed,treated,resolved"/>
+                    <field name="tachyarrhythmia_state" invisible="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <!-- Add smart buttons here if needed -->
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Algorithm Name" class="text-break"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Basic Information">
+                            <field name="animal_algorithm_id" options="{'no_create': True}"/>
+                            <field name="animal_type"/>
+                            <field name="heart_rate" class="oe_inline"/>
+                            <field name="heart_rate_category" widget="badge"/>
+                            <field name="rhythm_regular" widget="boolean_toggle"/>
+                            <field name="supraventricular_complexes" widget="boolean_toggle"/>
+                        </group>
+                        <group string="ECG Parameters">
+                            <field name="ecg_performed" widget="boolean_toggle"/>
+                            <field name="qrs_duration" attrs="{'invisible': [('ecg_performed', '=', False)], 'required': [('ecg_performed', '=', True)]}"/>
+                            <field name="p_wave_present" attrs="{'invisible': [('ecg_performed', '=', False)], 'required': [('ecg_performed', '=', True)]}" widget="boolean_toggle"/>
+                            <field name="t_wave_abnormal" attrs="{'invisible': [('ecg_performed', '=', False)], 'required': [('ecg_performed', '=', True)]}" widget="boolean_toggle"/>
+                            <field name="st_segment_abnormal" attrs="{'invisible': [('ecg_performed', '=', False)], 'required': [('ecg_performed', '=', True)]}" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Clinical Signs" name="clinical_signs">
+                            <group>
+                                <group string="Primary Signs">
+                                    <field name="weakness" widget="boolean_toggle"/>
+                                    <field name="lethargy" widget="boolean_toggle"/>
+                                    <field name="syncope" widget="boolean_toggle"/>
+                                </group>
+                                <group string="Secondary Signs">
+                                    <field name="exercise_intolerance" widget="boolean_toggle"/>
+                                    <field name="respiratory_distress" widget="boolean_toggle"/>
+                                    <field name="coughing" widget="boolean_toggle"/>
+                                </group>
+                            </group>
+                        </page>
+                        <!-- Rest of your notebook pages -->
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <!-- Search View -->
+    <record id="view_cardiac_algorithm_search" model="ir.ui.view">
+        <field name="name">cardiac.algorithm.search</field>
+        <field name="model">cardiac.algorithm</field>
+        <field name="arch" type="xml">
+            <search string="Search Brady and Tacky Cardia">
+                <field name="name"/>
+                <field name="animal_algorithm_id"/>
+                <field name="diagnosis"/>
+                <group expand="0" string="Group By">
+                    <filter string="Animal Algorithm"
+                            name="group_by_animal"
+                            domain="[]"
+                            context="{'group_by': 'animal_algorithm_id'}"/>
+                    <filter string="Diagnosis"
+                            name="group_by_diagnosis"
+                            domain="[]"
+                            context="{'group_by': 'diagnosis'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action open image for diagnosis -->
+
+    <record id="action_image_popup_url" model="ir.actions.act_url">
+        <field name="name">Image Popup</field>
+        <field name="url">http://localhost:8016/cardiology_sc/static/img/bradycardia_image.png</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <!--    <record id="action_image_popup" model="ir.actions.act_window">-->
+    <!--        <field name="name">Image Popup</field>-->
+    <!--        <field name="res_model">cardiology_sc.image.popup.model</field> &lt;!&ndash; Your image model &ndash;&gt;-->
+    <!--        <field name="view_mode">form</field>-->
+    <!--        <field name="target">new</field>-->
+    <!--    </record>-->
+
+
+    <!-- Action -->
+    <record id="action_cardiac_algorithm" model="ir.actions.act_window">
+        <field name="name">Cardiac Algorithms</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cardiac.algorithm</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_cardiac_algorithm_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first cardiac algorithm
+            </p>
+            <p>
+                Create cardiac algorithms to diagnose tachyarrhythmia in animals.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+
+    <!--    <menuitem id="menu_cardiac_algorithm"-->
+    <!--              name="Cardiac Algorithms"-->
+    <!--              action="action_cardiac_algorithm"-->
+    <!--              parent="cardiology_sc.menu_3"-->
+    <!--              sequence="10"/>-->
+</odoo>

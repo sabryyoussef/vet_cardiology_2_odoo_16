@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <!-- Action open image for diagnosis -->
+
+    <record id="action_image_popup_url" model="ir.actions.act_url">
+        <field name="name">Image Popup</field>
+        <field name="url">http://localhost:8016/cardiology_sc/static/img/bradycardia_image.png</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_cardiac_algorithm_tree" model="ir.ui.view">
+        <field name="name">cardiac.algorithm.tree</field>
+        <field name="model">cardiac.algorithm</field>
+        <field name="arch" type="xml">
+            <tree string="Brady and Tacky Cardia ">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="animal_algorithm_id"/>
+                <field name="animal_type"/>
+                <field name="heart_rate"/>
+                <field name="heart_rate_category"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_cardiac_algorithm_form" model="ir.ui.view">
+        <field name="name">cardiac.algorithm.form</field>
+        <field name="model">cardiac.algorithm</field>
+        <field name="arch" type="xml">
+            <form string="Brady and Tacky Cardia">
+                <header>
+                    <button name="action_set_in_progress"
+                            string="Set In Progress"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_diagnose"
+                            string="Diagnose"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+                    <button name="manage_tachyarrhythmia"
+                            string="Analyze Tachyarrhythmia"
+                            type="object"
+                            attrs="{'invisible': [('heart_rate_category', '!=', 'tachy')]}"/>
+                    <button name="action_set_treated"
+                            string="Mark as Treated"
+                            type="object"
+                            attrs="{'invisible': [('state', '!=', 'diagnosed')]}"/>
+                    <button name="action_set_resolved"
+                            string="Mark as Resolved"
+                            type="object"
+                            attrs="{'invisible': [('state', '!=', 'treated')]}"/>
+                    <button name="action_reset"
+                            string="Reset"
+                            type="object"
+                            confirm="Are you sure you want to reset this diagnosis?"
+                            attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <button name="action_clear_diagnosis"
+                            string="Clear Tachyarrhythmia"
+                            type="object"
+                            attrs="{'invisible': [('tachyarrhythmia_state', '=', 'draft')]}"/>
+
+                    <!--                    <button name="action_view_pdf"-->
+                    <!--                            type="object"-->
+                    <!--                            string="View PDF"-->
+                    <!--                            class="btn-primary"/>-->
+                    <button name="action_view_static_pdf"
+                            type="object"
+                            string="View Algorithm PDF"
+                            class="btn-primary"/>
+
+                    <!--                    <button name="open_image_popup"-->
+                    <!--                            type="object"-->
+                    <!--                            string="View Image"-->
+                    <!--                            class="btn-primary"/>-->
+                    <!--                    <button name="open_image_in_new_window"-->
+                    <!--                            type="object"-->
+                    <!--                            string="View Image"-->
+                    <!--                            class="btn-primary"/>-->
+                    <button name="%(action_image_popup_url)d"
+                            type="action"
+                            string="View Image"
+                            class="btn-primary"/>
+
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,in_progress,diagnosed,treated,resolved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Algorithm Name"/>
+                            <!--                            <field name="attachment_ids" widget="many2many_binary"/>-->
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="animal_algorithm_id" options="{'no_create': True}"/>
+                            <field name="animal_type"/>
+                            <field name="heart_rate"/>
+                            <field name="heart_rate_category"/>
+                            <field name="rhythm_regular"/>
+                            <field name="supraventricular_complexes"/>
+                        </group>
+                        <group>
+                            <field name="ecg_performed"/>
+                            <field name="qrs_duration" attrs="{'invisible': [('ecg_performed', '=', False)]}"/>
+                            <field name="p_wave_present" attrs="{'invisible': [('ecg_performed', '=', False)]}"/>
+                            <field name="t_wave_abnormal" attrs="{'invisible': [('ecg_performed', '=', False)]}"/>
+                            <field name="st_segment_abnormal" attrs="{'invisible': [('ecg_performed', '=', False)]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Clinical Signs" name="clinical_signs">
+                            <group>
+                                <group>
+                                    <field name="weakness"/>
+                                    <field name="lethargy"/>
+                                    <field name="syncope"/>
+                                </group>
+                                <group>
+                                    <field name="exercise_intolerance"/>
+                                    <field name="respiratory_distress"/>
+                                    <field name="coughing"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Diagnosis and Treatment" name="diagnosis">
+                            <group>
+                                <field name="diagnosis" readonly="1"/>
+                                <field name="treatment_plan" readonly="1"/>
+                                <field name="recommendations" readonly="1"/>
+                            </group>
+                            <group attrs="{'invisible': [('heart_rate_category', '!=', 'tachy')]}">
+                                <separator string="Tachyarrhythmia Analysis"/>
+                                <field name="tachyarrhythmia_state"/>
+                                <field name="tachyarrhythmia_diagnosis" readonly="1"/>
+                                <field name="tachyarrhythmia_treatment" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Diagnostic Guide" name="guide">
+                            <div class="alert alert-info" role="alert">
+                                <strong>Normal Heart Rate Values:</strong>
+                                <ul>
+                                    <li>Canine: 60-180 bpm</li>
+                                    <li>Feline: 120-240 bpm</li>
+                                </ul>
+                                <strong>Diagnostic Guidelines:</strong>
+                                <ul>
+                                    <li>Atrial Fibrillation: Irregular rhythm with elevated heart rate</li>
+                                    <li>SVT: Regular rhythm with supraventricular complexes</li>
+                                    <li>Ventricular Tachycardia: Regular rhythm without supraventricular complexes</li>
+                                </ul>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <!-- Search View -->
+    <record id="view_cardiac_algorithm_search" model="ir.ui.view">
+        <field name="name">cardiac.algorithm.search</field>
+        <field name="model">cardiac.algorithm</field>
+        <field name="arch" type="xml">
+            <search string="Search Brady and Tacky Cardia">
+                <field name="name"/>
+                <field name="animal_algorithm_id"/>
+                <field name="diagnosis"/>
+                <group expand="0" string="Group By">
+                    <filter string="Animal Algorithm"
+                            name="group_by_animal"
+                            domain="[]"
+                            context="{'group_by': 'animal_algorithm_id'}"/>
+                    <filter string="Diagnosis"
+                            name="group_by_diagnosis"
+                            domain="[]"
+                            context="{'group_by': 'diagnosis'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action open image for diagnosis -->
+
+    <record id="action_image_popup_url" model="ir.actions.act_url">
+        <field name="name">Image Popup</field>
+        <field name="url">http://localhost:8016/cardiology_sc/static/img/bradycardia_image.png</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <!--    <record id="action_image_popup" model="ir.actions.act_window">-->
+    <!--        <field name="name">Image Popup</field>-->
+    <!--        <field name="res_model">cardiology_sc.image.popup.model</field> &lt;!&ndash; Your image model &ndash;&gt;-->
+    <!--        <field name="view_mode">form</field>-->
+    <!--        <field name="target">new</field>-->
+    <!--    </record>-->
+
+
+    <!-- Action -->
+    <record id="action_cardiac_algorithm" model="ir.actions.act_window">
+        <field name="name">Cardiac Algorithms</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cardiac.algorithm</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_cardiac_algorithm_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first cardiac algorithm
+            </p>
+            <p>
+                Create cardiac algorithms to diagnose tachyarrhythmia in animals.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+
+    <!--    <menuitem id="menu_cardiac_algorithm"-->
+    <!--              name="Cardiac Algorithms"-->
+    <!--              action="action_cardiac_algorithm"-->
+    <!--              parent="cardiology_sc.menu_3"-->
+    <!--              sequence="10"/>-->
+</odoo>

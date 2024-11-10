@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Base Animal Algorithm Records -->
+        <record id="animal_algorithm_dog" model="animal.algorithm">
+            <field name="name">Dog Algorithm</field>
+            <field name="animal_type">dog</field>
+        </record>
+
+        <record id="animal_algorithm_cat" model="animal.algorithm">
+            <field name="name">Cat Algorithm</field>
+            <field name="animal_type">cat</field>
+        </record>
+
+        <!-- Cardiac Algorithm Records -->
+        <record id="cardiac_algorithm_dog_1" model="cardiac.algorithm">
+            <field name="sequence">10</field>
+            <field name="name">Canine Bradycardia Assessment</field>
+            <field name="animal_algorithm_id" ref="animal_algorithm_dog"/>
+            <field name="heart_rate">45</field>
+            <field name="rhythm_regular">true</field>
+            <field name="ecg_performed">true</field>
+            <field name="qrs_duration">0.08</field>
+            <field name="p_wave_present">true</field>
+            <field name="syncope">true</field>
+            <field name="weakness">true</field>
+            <field name="state">draft</field>
+        </record>
+
+        <record id="cardiac_algorithm_dog_2" model="cardiac.algorithm">
+            <field name="sequence">20</field>
+            <field name="name">Canine Tachycardia Case</field>
+            <field name="animal_algorithm_id" ref="animal_algorithm_dog"/>
+            <field name="heart_rate">200</field>
+            <field name="rhythm_regular">false</field>
+            <field name="supraventricular_complexes">true</field>
+            <field name="ecg_performed">true</field>
+            <field name="qrs_duration">0.05</field>
+            <field name="p_wave_present">false</field>
+            <field name="respiratory_distress">true</field>
+            <field name="state">diagnosed</field>
+        </record>
+
+        <record id="cardiac_algorithm_cat_1" model="cardiac.algorithm">
+            <field name="sequence">30</field>
+            <field name="name">Feline Arrhythmia Evaluation</field>
+            <field name="animal_algorithm_id" ref="animal_algorithm_cat"/>
+            <field name="heart_rate">250</field>
+            <field name="rhythm_regular">false</field>
+            <field name="ecg_performed">true</field>
+            <field name="qrs_duration">0.04</field>
+            <field name="t_wave_abnormal">true</field>
+            <field name="st_segment_abnormal">true</field>
+            <field name="exercise_intolerance">true</field>
+            <field name="state">in_progress</field>
+        </record>
+
+        <record id="cardiac_algorithm_cat_2" model="cardiac.algorithm">
+            <field name="sequence">40</field>
+            <field name="name">Feline Normal Rhythm Case</field>
+            <field name="animal_algorithm_id" ref="animal_algorithm_cat"/>
+            <field name="heart_rate">180</field>
+            <field name="rhythm_regular">true</field>
+            <field name="ecg_performed">true</field>
+            <field name="qrs_duration">0.035</field>
+            <field name="p_wave_present">true</field>
+            <field name="state">resolved</field>
+        </record>
+    </data>
+</odoo>

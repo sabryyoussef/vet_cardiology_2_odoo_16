@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+
+        <!-- Action to open the image popup -->
+        <record id="action_image_popup" model="ir.actions.act_window">
+            <field name="name">Image Popup</field>
+            <field name="res_model">cardiology_sc.image.popup.model</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field> <!-- This opens the form in a popup -->
+        </record>
+
+        <!-- Form view for the image popup -->
+        <record id="view_image_popup_form" model="ir.ui.view">
+            <field name="name">image.popup.form</field>
+            <field name="model">cardiology_sc.image.popup.model</field>
+            <field name="arch" type="xml">
+                <form string="Image Popup">
+                    <group>
+                        <div class="img-container">
+                            <img t-att-src="image_url" alt="Popup Image" style="max-width: 100%; height: auto;"/>
+                        </div>
+                    </group>
+                    <footer>
+                        <button string="Close" class="btn btn-secondary" type="object" name="action_close"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>
