@@ -23,7 +23,11 @@
         </div>
     """,
 
+<<<<<<< HEAD
     'author': "Vet Sabry Youssef_01000059085",
+=======
+    'author': "Vet Sabry Youssef _01000059085",
+>>>>>>> 1c2514af4673cb52305e10ec316abf5f8b26a48b
     'website': "https://www.vetbrains.com",
 
     'category': 'Healthcare/Veterinary',
@@ -75,7 +79,8 @@
             'cardiology_sc/static/src/scss/**/*',
         ],
     },
-
+    
+    'icon': '/vet_cardiology/static/img/sabry_cardiology_module.png',  # Add this line for the image
     'application': True,
     'installable': True,
     'auto_install': False,
