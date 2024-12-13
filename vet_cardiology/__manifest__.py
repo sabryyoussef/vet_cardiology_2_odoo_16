@@ -6,22 +6,43 @@
         Veterinary cardiology diagnostic tools and algorithms for cats and dogs""",
 
     'description': """
-        <div class="container">
-            <h2 class="oe_slogan" style="color:#875A7B;">Complete Veterinary Cardiology Module</h2>
-            <div class="oe_span12">
-                <div class="oe_demo oe_picture oe_screenshot">
-                    <img src="/vet_cardiology/static/description/index.png" alt="Cover Image"/>
-                    <p class="oe_mt32">Comprehensive suite of cardiology tools featuring:</p>
-                    <ul>
-                        <li>Heart murmur diagnosis for cats and dogs</li>
-                        <li>Brady/Tachycardia assessment</li>
-                        <li>Pulse evaluation tools</li>
-                        <li>Cardiac arrhythmia analysis</li>
-                        <li>Interactive diagnostic algorithms</li>
-                    </ul>
-                </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="mt16 mb16">
+            <h2 class="text-center" style="color: #875A7B;">Complete Veterinary Cardiology Module</h2>
+        </div>
+        <div class="oe_demo oe_screenshot">
+            <img class="img img-fluid" src="/vet_cardiology/static/description/banner.png"/>
+        </div>
+        <div class="mt32">
+            <h3 class="text-center" style="color: #875A7B;">Key Features</h3>
+            <div class="mt16">
+                <ul class="list-unstyled">
+                    <li class="mb8">
+                        <i class="fa fa-check-circle" style="color: #875A7B;"></i>
+                        Heart murmur diagnosis for cats and dogs
+                    </li>
+                    <li class="mb8">
+                        <i class="fa fa-check-circle" style="color: #875A7B;"></i>
+                        Brady/Tachycardia assessment
+                    </li>
+                    <li class="mb8">
+                        <i class="fa fa-check-circle" style="color: #875A7B;"></i>
+                        Pulse evaluation tools
+                    </li>
+                    <li class="mb8">
+                        <i class="fa fa-check-circle" style="color: #875A7B;"></i>
+                        Cardiac arrhythmia analysis
+                    </li>
+                    <li class="mb8">
+                        <i class="fa fa-check-circle" style="color: #875A7B;"></i>
+                        Interactive diagnostic algorithms
+                    </li>
+                </ul>
             </div>
         </div>
+    </div>
+</div>
     """,
 
     'author': "Vet Sabry Youssef_01000059085",
@@ -29,11 +50,13 @@
 
     'category': 'Healthcare/Veterinary',
     'version': '1.0.0',
-    
-    # Icon and images
-    'icon': '/vet_cardiology/static/description/icon.png',
-    'images': ['/vet_cardiology/static/description/cover.png'],
-    
+
+    'images': [
+        'static/description/banner.png',
+        'static/description/screenshot1.png',
+        'static/description/screenshot2.png',
+    ],
+
     # any module necessary for this one to work correctly
     'depends': [
         'base',
