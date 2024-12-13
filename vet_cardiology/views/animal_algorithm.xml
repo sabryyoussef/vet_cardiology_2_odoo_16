@@ -232,11 +232,11 @@
 
     <!-- Menu Items -->
     <menuitem name="Veterinary Cardiology"
-              id="menu_root"/>
+              id="vet_cardiology.menu_root"/>
 
     <menuitem id="menu_animal_algorithm"
               name="Algorithms"
-              parent="menu_root"
+              parent="vet_cardiology.menu_root"
               action="action_animal_algorithm"
               sequence="10"/>
 </odoo>
