@@ -53,6 +53,7 @@ For detailed information and screenshots, please visit the module's page.
         # Views
         'views/animal_algorithm.xml',
         'views/cardiology_brady_tachy_cardia.xml',
+        'views/assets.xml',
         'views/cardiology_heart_murmur_cats.xml',
         'views/cardiology_heart_murmur_dogs_2.xml',
         'views/cardiology_pulse_ultration_2.xml',
@@ -71,9 +72,6 @@ For detailed information and screenshots, please visit the module's page.
         'web.assets_backend': [
             # JavaScript
             'vet_cardiology/static/src/js/cardiology_dashboard.js',
-            
-            # XML Templates
-            'vet_cardiology/static/src/xml/dashboard_template.xml',
             
             # SCSS Styles
             'vet_cardiology/static/src/scss/dashboard.scss',
