@@ -7,10 +7,11 @@
 
     'description': """
         <div class="container">
-            <h2 class="oe_slogan">Complete Veterinary Cardiology Module</h2>
+            <h2 class="oe_slogan" style="color:#875A7B;">Complete Veterinary Cardiology Module</h2>
             <div class="oe_span12">
                 <div class="oe_demo oe_picture oe_screenshot">
-                    <p>Comprehensive suite of cardiology tools featuring:</p>
+                    <img src="/vet_cardiology/static/description/index.png" alt="Cover Image"/>
+                    <p class="oe_mt32">Comprehensive suite of cardiology tools featuring:</p>
                     <ul>
                         <li>Heart murmur diagnosis for cats and dogs</li>
                         <li>Brady/Tachycardia assessment</li>
@@ -30,8 +31,8 @@
     'version': '1.0.0',
     
     # Icon and images
-    'icon': '/vet_cardiology/static/discription/assets/icons/icon.png',
-    'images': ['/vet_cardiology/static/discription/assets/icons/cover.png'],
+    'icon': '/vet_cardiology/static/description/icon.png',
+    'images': ['/vet_cardiology/static/description/cover.png'],
     
     # any module necessary for this one to work correctly
     'depends': [
