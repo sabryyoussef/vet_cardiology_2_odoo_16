@@ -7,5 +7,5 @@ access_veterinary_dog_heart_murmur,veterinary.dog.heart.murmur,model_veterinary_
 access_veterinary_pulse_alteration,veterinary.pulse.alteration,model_veterinary_pulse_alteration,base.group_user,1,1,1,1
 access_veterinary_tachyarrhythmia,veterinary.tachyarrhythmia,model_veterinary_tachyarrhythmia,base.group_user,1,1,1,1
 access_image_popup_model,access_image_popup_model,model_cardiology_sc_image_popup_model,base.group_user,1,1,1,1
-access_animal_algorithm_user,animal.algorithm.user,model_animal_algorithm,cardiology_sc.group_veterinary_user,1,1,1,0
-access_animal_algorithm_manager,animal.algorithm.manager,model_animal_algorithm,cardiology_sc.group_veterinary_manager,1,1,1,1
+access_animal_algorithm_user,animal.algorithm.user,model_animal_algorithm,vet_cardiology.group_veterinary_user,1,1,1,0
+access_animal_algorithm_manager,animal.algorithm.manager,model_animal_algorithm,vet_cardiology.group_veterinary_manager,1,1,1,1
