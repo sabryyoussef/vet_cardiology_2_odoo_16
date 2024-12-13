@@ -6,20 +6,33 @@
         Veterinary cardiology diagnostic tools and algorithms for cats and dogs""",
 
     'description': """
-        Complete veterinary cardiology module featuring:
-        * Heart murmur diagnosis for cats and dogs
-        * Brady/Tachycardia assessment
-        * Pulse evaluation tools
-        * Cardiac arrhythmia analysis
-        * Interactive diagnostic algorithms
+        <div class="container">
+            <h2 class="oe_slogan">Complete Veterinary Cardiology Module</h2>
+            <div class="oe_span12">
+                <div class="oe_demo oe_picture oe_screenshot">
+                    <p>Comprehensive suite of cardiology tools featuring:</p>
+                    <ul>
+                        <li>Heart murmur diagnosis for cats and dogs</li>
+                        <li>Brady/Tachycardia assessment</li>
+                        <li>Pulse evaluation tools</li>
+                        <li>Cardiac arrhythmia analysis</li>
+                        <li>Interactive diagnostic algorithms</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     """,
 
-    'author': "Your Company Name",
-    'website': "https://www.yourcompany.com",
+    'author': "Vet Sabry Youssef_01000059085",
+    'website': "https://www.vetbrains.com",
 
     'category': 'Healthcare/Veterinary',
     'version': '1.0.0',
-
+    
+    # Icon and images
+    'icon': '/vet_cardiology/static/discription/assets/icons/icon.png',
+    'images': ['/vet_cardiology/static/discription/assets/icons/cover.png'],
+    
     # any module necessary for this one to work correctly
     'depends': [
         'base',
