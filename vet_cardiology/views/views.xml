@@ -2,8 +2,8 @@
     <data>
         <!-- explicit list view definition -->
 
-        <record model="ir.ui.view" id="cardiology_sc.list">
-            <field name="name">cardiology_sc list</field>
+        <record model="ir.ui.view" id="list">
+            <field name="name">vet_cardiology list</field>
             <field name="model">cardiology_sc.cardiology_sc</field>
             <field name="arch" type="xml">
                 <tree>
@@ -16,14 +16,14 @@
 
 
         <!-- actions opening views on models -->
-        <record model="ir.actions.act_window" id="cardiology_sc.action_window">
-            <field name="name">cardiology_sc window</field>
+        <record model="ir.actions.act_window" id="action_window">
+            <field name="name">Veterinary Cardiology</field>
             <field name="res_model">cardiology_sc.cardiology_sc</field>
             <field name="view_mode">tree,form</field>
         </record>
 
         <!-- server action to the one above -->
-        <record model="ir.actions.server" id="cardiology_sc.action_server">
+        <record model="ir.actions.server" id="action_server">
             <field name="name">cardiology_sc server</field>
             <field name="model_id" ref="model_cardiology_sc_cardiology_sc"/>
             <field name="state">code</field>
@@ -37,15 +37,15 @@
         </record>
 
         <!-- Top menu item -->
-        <menuitem name="cardiology_sc"
-                  id="cardiology_sc.menu_root"/>
+        <menuitem name="Veterinary Cardiology"
+                  id="menu_root"/>
         <!-- menu categories -->
         <menuitem name="Menu 1"
-                  id="cardiology_sc.menu_1"
-                  parent="cardiology_sc.menu_root"/>
+                  id="menu_1"
+                  parent="menu_root"/>
         <menuitem name="Menu 2"
-                  id="cardiology_sc.menu_2"
-                  parent="cardiology_sc.menu_root"/>
+                  id="menu_2"
+                  parent="menu_root"/>
        <!-- Root Menu for Veterinary -->
 <!--<menuitem id="menu_veterinary_root"-->
 <!--          name="Veterinary"-->
@@ -55,13 +55,13 @@
 <!-- Submenu for Cardiology -->
 <menuitem id="menu_veterinary_cardiology"
           name="Cardiology"
-          parent="cardiology_sc.menu_root"
+          parent="menu_root"
           sequence="0"/>
 
     <!-- Veterinary Algorithms Menu under Cardiology -->
 <!--    <menuitem id="menu_veterinary_algorithms"-->
 <!--              name="Veterinary Algorithms"-->
-<!--              parent="cardiology_sc.menu_root"-->
+<!--              parent="menu_root"-->
 <!--              action="action_animal_algorithm"-->
 <!--              sequence="-1"/>-->
 
@@ -115,9 +115,9 @@
 
 
         <!-- actions -->
-        <menuitem name="List" id="cardiology_sc.menu_1_list" parent="cardiology_sc.menu_1"
-                  action="cardiology_sc.action_window"/>
-        <menuitem name="Server to list" id="cardiology_sc" parent="cardiology_sc.menu_2"
-                  action="cardiology_sc.action_server"/>
+        <menuitem name="List" id="menu_1_list" parent="menu_1"
+                  action="action_window"/>
+        <menuitem name="Server to list" id="cardiology_sc" parent="menu_2"
+                  action="action_server"/>
     </data>
 </odoo>

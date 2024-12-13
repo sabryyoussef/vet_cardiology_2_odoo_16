@@ -138,30 +138,8 @@
                                     <field name="state"/>
                                     <field name="create_date" optional="hide"/>
                                 </tree>
-<!--                                <form>-->
-<!--                                    <group>-->
-<!--                                        <field name="name"/>-->
-<!--                                        <field name="state"/>-->
-<!--                                    </group>-->
-<!--                                </form>-->
                             </field>
                         </page>
-<!--                         <page string="Brady And Tacky cardia" name="tachyarrhythmias">-->
-<!--                            <field name="tachyarrhythmia_ids" context="{'default_animal_algorithm_id': active_id, 'form_view_ref': 'cardiology_sc.view_tachyarrhythmia_form'}">-->
-<!--                                <tree>-->
-<!--                                    <field name="sequence" widget="handle"/>-->
-<!--                                    <field name="name"/>-->
-<!--                                    <field name="state"/>-->
-<!--                                    <field name="create_date" optional="hide"/>-->
-<!--                                </tree>-->
-<!--&lt;!&ndash;                                <form>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <group>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <field name="name"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <field name="state"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    </group>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </form>&ndash;&gt;-->
-<!--                            </field>-->
-<!--                        </page>-->
                         <page string="Cardiac Algorithms" name="cardiac_algorithms">
                             <field name="cardiac_algorithm_ids" 
                                    context="{'default_animal_algorithm_id': active_id, 'form_view_ref': 'cardiology_sc.view_cardiac_algorithm_form'}">
@@ -253,19 +231,12 @@
     </record>
 
     <!-- Menu Items -->
-    <!-- In views.xml -->
-<menuitem name="cardiology_sc"
-          id="cardiology_sc.menu_root"/>
+    <menuitem name="Veterinary Cardiology"
+              id="menu_root"/>
 
-<!-- In animal_algorithm.xml -->
-<menuitem id="menu_animal_algorithm"
-          name="Algorithms"
-          parent="cardiology_sc.menu_root"
-          action="action_animal_algorithm"
-          sequence="-1"/>
-    <!-- <menuitem id="menu_animal_algorithm"
+    <menuitem id="menu_animal_algorithm"
               name="Algorithms"
-              parent="cardiology_sc.menu_root"
+              parent="menu_root"
               action="action_animal_algorithm"
-              sequence="-1"/> -->
+              sequence="10"/>
 </odoo>
