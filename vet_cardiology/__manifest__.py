@@ -60,7 +60,6 @@ For detailed information and screenshots, please visit the module's page.
         'views/image_popup_view.xml',
         'views/views.xml',
         'views/templates.xml',
-        # 'views/tachyarrhythmia_wizard_views.xml',
     ],
 
     'demo': [
@@ -70,9 +69,15 @@ For detailed information and screenshots, please visit the module's page.
 
     'assets': {
         'web.assets_backend': [
-            'cardiology_sc/static/src/js/**/*',
-            'cardiology_sc/static/src/xml/**/*',
-            'cardiology_sc/static/src/scss/**/*',
+            # JavaScript
+            'vet_cardiology/static/src/js/cardiology_dashboard.js',
+            
+            # XML Templates
+            'vet_cardiology/static/src/xml/dashboard_template.xml',
+            
+            # SCSS Styles
+            'vet_cardiology/static/src/scss/dashboard.scss',
+            'vet_cardiology/static/src/scss/style.scss',
         ],
     },
     
