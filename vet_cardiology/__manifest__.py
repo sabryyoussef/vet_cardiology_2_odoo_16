@@ -14,8 +14,8 @@
         * Interactive diagnostic algorithms
     """,
 
-    'author': "Your Company Name",
-    'website': "https://www.yourcompany.com",
+    'author': "Vet Sabry Youssef _01000059085",
+    'website': "https://www.vetbrains.com",
 
     'category': 'Healthcare/Veterinary',
     'version': '1.0.0',
