@@ -62,7 +62,8 @@
             'cardiology_sc/static/src/scss/**/*',
         ],
     },
-
+    
+    'icon': '/vet_cardiology/static/img/sabry_cardiology_module.png',  # Add this line for the image
     'application': True,
     'installable': True,
     'auto_install': False,
